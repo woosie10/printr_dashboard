@@ -1,10 +1,33 @@
 
 body{
-	background-color: $background_color;
 	font-size: 15px;
 	font-family: 'Lato', helvetica, arial, sans-serif;
 	font-weight: 400;
 	color: $font_color;
 
+	background: $background_color;
+	background-image: linear-gradient(transparentize($background_color,0.2) 20%, 
+					  transparentize($color_1,0.5) 250%), 
+					  url(../images/background-shapes.svg);
+
+    background-repeat: repeat-x;
+    background-position: bottom;
 }
 
+
+
+.navbar-default{
+	background: $container-color;
+	
+	.navbar-brand {
+    	padding: 5px 15px;
+    	line-height: 40px;
+
+    	.nav-logo{
+    		height: 40px;
+    		float: left;
+    		padding-right: 10px;
+    	}
+    }
+
+}

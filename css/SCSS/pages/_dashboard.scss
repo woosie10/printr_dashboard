@@ -1,7 +1,51 @@
 
 #dashboard{
+
+    max-width: $screen-lg-min;
+    padding-top: 81px;
+    padding-bottom: 180px;
+
+
+    .dashboard-container{
+		margin-bottom: 30px;
+	    background: $container-color;
+	    display: inline-block;
+	    width: 100%;
+	    padding: 30px 0;
+	    border: 1px solid $border-color;
+	    border-radius: 3px;
+	}
+
 	
-	
+	.data-container{
+		@extend .dashboard-container;
+
+		.data{
+			float: left;
+			margin-top: 10px;
+			padding-left: 0;
+			font-size: 150%;
+
+			.change{
+				display: inline-block;
+			    margin-left: 10px;
+			    font-size: 80%;
+			}
+		}
+
+		.fa.large{
+			font-size: 50px;
+			text-align: center;
+			width: 100%;
+		}
+	}
+
+
+	.chart-container{
+		@extend .dashboard-container;
+		height: 300px;
+    	
+	}
 	
 
 

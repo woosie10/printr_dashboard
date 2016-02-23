@@ -6,7 +6,7 @@
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<link rel="shortcut icon" href="images/sad-stick-figure.png"/>
+	<link rel="shortcut icon" href="images/element.png"/>
 
     <title>printr dashboard</title>
 
@@ -14,10 +14,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
 	
 	<!-- Custom CSS -->
-    <link href="css/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css"/>
 
     <!-- Custom Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
 
 
 </head>
@@ -35,23 +36,94 @@
             		<span class="icon-bar"></span>
             		<span class="icon-bar"></span>
           		</button>
-          		<a class="navbar-brand" href="#">Project name</a>
+          		<a class="navbar-brand" href="#">FORMIDE <img class="nav-logo" src="images/element.png"></a>
         	</div>
-        	<div id="navbar" class="navbar-collapse collapse">
+        	<!--<div id="navbar" class="navbar-collapse collapse">
           		<ul class="nav navbar-nav">
             		<li class="active"><a href="#">Dashboard</a></li>
           		</ul>
-        	</div>
+        	</div>-->
       	</div>
     </nav>
 
 
 
-    <div class="container-fluid">
+    <div id="dashboard" class="container-fluid" ng-style="style()" resize>
 
       
 
+        <div class="row">
 
+            <div class="col-sm-4 container-fluid">
+                <div class="data-container">
+                    <div class="col-xs-5 col-sm-4 col-md-5"><i class="fa fa-users large"></i></div>
+                    <div class="col-xs-7 col-sm-8 col-md-7">
+                        <div class="title">No. Users</div>
+                        <div class="data">{{totals.users}} 
+                            <div class="change"><i class="fa fa-caret-up"> 2.1%</i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-4 container-fluid">
+                <div class="data-container">
+                    <div class="col-xs-5 col-sm-4 col-md-5"><i class="fa fa-cubes large"></i></div>
+                    <div class="col-xs-7 col-sm-8 col-md-7">
+                        <div class="title">No. Models Sliced </div>
+                        <div class="data">{{totals.slicedModels}}
+                            <div class="change"><i class="fa fa-caret-up"> 3.9%</i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-4 container-fluid">
+                <div class="data-container">
+                    <div class="col-xs-5 col-sm-4 col-md-5"><i class="fa fa-clock-o large"></i></div>
+                    <div class="col-xs-7 col-sm-8 col-md-7">
+                        <div class="title">No. Print Hours</div>
+                        <div class="data">{{totals.printHours}}
+                            <div class="change"><i class="fa fa-caret-up"> 8.5%</i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="row">
+
+            <div class="col-sm-6 container-fluid">
+
+                <div class="chart-container"></div>
+                
+            </div>
+
+            <div class="col-sm-6 container-fluid">
+
+                <div class="chart-container"></div>
+                
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-sm-6 container-fluid">
+
+                <div class="chart-container"></div>
+                
+            </div>
+
+            <div class="col-sm-6 container-fluid">
+
+                <div class="chart-container"></div>
+                
+            </div>
+
+        </div>
 
 
 
