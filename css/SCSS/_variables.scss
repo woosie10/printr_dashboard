@@ -1,0 +1,17 @@
+
+$screen-sm-min: 768px;
+$screen-lg-min: 1200px;
+
+$background_color: #E7E7E7;
+
+$border-color: #ccc;
+
+$font_color: #555;
+
+$color_1: #003356;
+$color_1_light: lighten($color_1, 10%);
+$color_1_dark: darken($color_1, 10%);
+
+$color_2: #00AAD8;
+$color_2_light: lighten($color_2, 10%);
+$color_2_dark: darken($color_2, 10%);
