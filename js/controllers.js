@@ -1,13 +1,39 @@
 
-printrApp.controller('dashboardCtrl', function($scope) {
+printrApp.controller('dashboardCtrl', function($scope, weeklyTotals, percentageDiff) {
 
-	$scope.totals = [];
+	
+	$scope.weeklyTotals = [];
+	$scope.xAxis = [];
+	$scope.usersTotals = [];
+	$scope.modelsSlicedTotals = [];
+	$scope.printHoursTotals = [];
+	$scope.currentTotals = [];
+	$scope.previousTotals = [];
+	
 
-	$scope.totals.users = 251;
-	$scope.totals.slicedModels = 1156;
-	$scope.totals.printHours = 6532;
+	weeklyTotals.getData().then(function(data){
 
-	$scope.xAxis = ['2/1', '9/1', '16/1', '23/1', '30/1', '6/2', '13/2', '20/2'];
+	  	$scope.weeklyTotals = data.data;
+
+	  	angular.forEach($scope.weeklyTotals, function(item){  
+			$scope.xAxis.push(item.label);
+			$scope.usersTotals.push(item.users);
+			$scope.modelsSlicedTotals.push(item.modelsSliced);
+			$scope.printHoursTotals.push(item.printHours);
+       	})
+
+       	$scope.currentTotals = $scope.weeklyTotals[$scope.weeklyTotals.length - 1];
+       	$scope.previousTotals = $scope.weeklyTotals[$scope.weeklyTotals.length - 2];
+
+       	$scope.currentTotals.usersDiff = percentageDiff.calc($scope.currentTotals.users, $scope.previousTotals.users);
+       	$scope.currentTotals.modelsSlicedDiff = percentageDiff.calc($scope.currentTotals.modelsSliced, $scope.previousTotals.modelsSliced);
+       	$scope.currentTotals.printHoursDiff = percentageDiff.calc($scope.currentTotals.printHours, $scope.previousTotals.printHours);
+
+
+
+	});
+
+
 
 	$scope.lineChartOptions = {
 	    chart: {
@@ -16,11 +42,12 @@ printrApp.controller('dashboardCtrl', function($scope) {
 	    xAxis: {
             categories: $scope.xAxis
         },
-	    plotOptions: {
-	      	series: {
-	        	stacking: false
-	      	}
-	    }
+        title: {
+			text: ''
+		},
+		credits: {
+			enabled: false
+		}
 	};
 
 
@@ -31,31 +58,18 @@ printrApp.controller('dashboardCtrl', function($scope) {
 		series: [
 		    {
 		      	name: 'No. of Users',
-		      	data: [
-			        173,
-			        194,
-			        205,
-			        211,
-			        251
-			    ],
+		      	data: $scope.usersTotals,
 				id: 'series-0',
 				connectNulls: true,
 				type: 'spline',
 				lineWidth: 2,
 				color: '#1EB1E6'
 		    }
-		],
-		title: {
-			text: ''
-		},
-		credits: {
-			enabled: false
-		},
-		loading: false,
-		size: {}
+		]
 		
 
     };
+
 
     $scope.totalSlicedModelsConfig = {
 
@@ -64,29 +78,14 @@ printrApp.controller('dashboardCtrl', function($scope) {
 		series: [
 		    {
 		      	name: 'No. Models Sliced',
-		      	data: [
-			        871,
-			        925,
-			        992,
-			        1051,
-			        1156
-		      	],
+		      	data: $scope.modelsSlicedTotals,
 				connectNulls: true,
 				id: 'series-1',
 				type: 'spline',
 				lineWidth: 2,
 				color: '#888998'
 		    }
-		],
-		title: {
-			text: ''
-		},
-		credits: {
-			enabled: false
-		},
-		loading: false,
-		size: {}
-		
+		]		
 
     };
 
@@ -98,27 +97,13 @@ printrApp.controller('dashboardCtrl', function($scope) {
 		series: [
 		    {
 		      	name: 'No. Print Hours',
-		      	data: [
-			        4371,
-			        5271,
-			        5824,
-			        6142,
-			        6532
-			    ],
+		      	data: $scope.printHoursTotals,
 				type: 'spline',
 				id: 'series-2',
 				lineWidth: 2,
 				color: '#3E4259'
 		    }
-		],
-		title: {
-			text: ''
-		},
-		credits: {
-			enabled: false
-		},
-		loading: false,
-		size: {}
+		]
 		
 
     };

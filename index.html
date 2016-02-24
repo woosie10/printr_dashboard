@@ -51,76 +51,80 @@
 
     <div id="dashboard" class="container-fluid" ng-style="style()" resize>
 
-      
+        <section id="totals">
 
-        <div class="row">
+            <div class="row">
 
-            <div class="col-sm-6">
+                <div class="col-sm-6">
 
-                <div class="container-fluid data-container">
-                    <div class="row">
-                        <div class="col-xs-5 col-md-6"><i class="fa fa-users large color-1"></i></div>
-                        <div class="col-xs-7 col-md-6">
-                            <div class="title">No. Users</div>
-                            <div class="data">{{totals.users}} 
-                                <div class="change"><i class="fa fa-caret-up"> 2.1%</i></div>
+                    <div class="container-fluid data-container">
+                        <div class="row">
+                            <div class="col-xs-5 col-md-6"><i class="fa fa-users large color-1"></i></div>
+                            <div class="col-xs-7 col-md-6">
+                                <div class="title">No. Users</div>
+                                <div class="data">{{currentTotals.users}} 
+                                    <div class="change"><i class="fa fa-caret-up"> {{currentTotals.usersDiff | number:1}}%</i></div>
+                                </div>
                             </div>
                         </div>
+                        
+                        <div class="row">
+                            <div class="col-xs-5 col-md-6"><i class="fa fa-cubes large color-2"></i></div>
+                            <div class="col-xs-7 col-md-6">
+                                <div class="title">No. Models Sliced </div>
+                                <div class="data">{{currentTotals.modelsSliced}}
+                                    <div class="change"><i class="fa fa-caret-up"> {{currentTotals.modelsSlicedDiff | number:1}}%</i></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-5 col-md-6"><i class="fa fa-clock-o large color-3"></i></div>
+                            <div class="col-xs-7 col-md-6">
+                                <div class="title">No. Print Hours</div>
+                                <div class="data">{{currentTotals.printHours}}
+                                    <div class="change"><i class="fa fa-caret-up"> {{currentTotals.printHoursDiff | number:1}}%</i></div>
+                                </div>
+                            </div>
+                        </div>  
+
                     </div>
                     
-                    <div class="row">
-                        <div class="col-xs-5 col-md-6"><i class="fa fa-cubes large color-2"></i></div>
-                        <div class="col-xs-7 col-md-6">
-                            <div class="title">No. Models Sliced </div>
-                            <div class="data">{{totals.slicedModels}}
-                                <div class="change"><i class="fa fa-caret-up"> 3.9%</i></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-xs-5 col-md-6"><i class="fa fa-clock-o large color-3"></i></div>
-                        <div class="col-xs-7 col-md-6">
-                            <div class="title">No. Print Hours</div>
-                            <div class="data">{{totals.printHours}}
-                                <div class="change"><i class="fa fa-caret-up"> 8.5%</i></div>
-                            </div>
-                        </div>
-                    </div>  
-
                 </div>
-                
+
+
+                <div class="col-sm-6">
+
+                    <highchart class="chart-container" config="totalUsersConfig"></highchart>
+                    
+                </div>
+
             </div>
 
 
-            <div class="col-sm-6">
 
-                <highchart class="chart-container" config="totalUsersConfig"></highchart>
-                
+            <div class="row">
+
+                <div class="col-sm-6">
+
+                    <highchart class="chart-container" config="totalSlicedModelsConfig"></highchart>
+                    
+                </div>
+
+
+                <div class="col-sm-6">
+
+                    <highchart class="chart-container" config="totalPrintHoursConfig"></highchart>
+                    
+                </div>
+
             </div>
 
-        </div>
+        </section>
 
 
 
-        <div class="row">
-
-            <div class="col-sm-6">
-
-                <highchart class="chart-container" config="totalSlicedModelsConfig"></highchart>
-                
-            </div>
-
-
-            <div class="col-sm-6">
-
-                <highchart class="chart-container" config="totalPrintHoursConfig"></highchart>
-                
-            </div>
-
-        </div>
-
-
+        
 
 
 
