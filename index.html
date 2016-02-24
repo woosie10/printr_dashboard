@@ -23,7 +23,7 @@
 
 </head>
 
-<body ng-controller="dashboardCtrl">
+<body>
 
 	
 	<!-- Fixed navbar -->
@@ -51,7 +51,7 @@
 
     <div id="dashboard" class="container-fluid" ng-style="style()" resize>
 
-        <section id="totals">
+        <section id="totals" ng-controller="totalsCtrl">
 
             <div class="row">
 
@@ -61,9 +61,9 @@
                         <div class="row">
                             <div class="col-xs-5 col-md-6"><i class="fa fa-users large color-1"></i></div>
                             <div class="col-xs-7 col-md-6">
-                                <div class="title">No. Users</div>
-                                <div class="data">{{currentTotals.users}} 
-                                    <div class="change"><i class="fa fa-caret-up"> {{currentTotals.usersDiff | number:1}}%</i></div>
+                                <div class="title">Users Total</div>
+                                <div class="data">{{totals.users}} 
+                                    <div class="change"><i class="fa fa-caret-up"> {{totals.usersDiff | number:1}}%</i></div>
                                 </div>
                             </div>
                         </div>
@@ -71,9 +71,9 @@
                         <div class="row">
                             <div class="col-xs-5 col-md-6"><i class="fa fa-cubes large color-2"></i></div>
                             <div class="col-xs-7 col-md-6">
-                                <div class="title">No. Models Sliced </div>
-                                <div class="data">{{currentTotals.modelsSliced}}
-                                    <div class="change"><i class="fa fa-caret-up"> {{currentTotals.modelsSlicedDiff | number:1}}%</i></div>
+                                <div class="title">Models Sliced Total</div>
+                                <div class="data">{{totals.modelsSliced}}
+                                    <div class="change"><i class="fa fa-caret-up"> {{totals.modelsSlicedDiff | number:1}}%</i></div>
                                 </div>
                             </div>
                         </div>
@@ -81,9 +81,9 @@
                         <div class="row">
                             <div class="col-xs-5 col-md-6"><i class="fa fa-clock-o large color-3"></i></div>
                             <div class="col-xs-7 col-md-6">
-                                <div class="title">No. Print Hours</div>
-                                <div class="data">{{currentTotals.printHours}}
-                                    <div class="change"><i class="fa fa-caret-up"> {{currentTotals.printHoursDiff | number:1}}%</i></div>
+                                <div class="title">Print Hours Total</div>
+                                <div class="data">{{totals.printHours}}
+                                    <div class="change"><i class="fa fa-caret-up"> {{totals.printHoursDiff | number:1}}%</i></div>
                                 </div>
                             </div>
                         </div>  
@@ -124,7 +124,70 @@
 
 
 
-        
+        <section id="liveData"  ng-controller="livedataCtrl">
+
+            <div class="row">
+
+                <div class="col-sm-6">
+
+                    <div class="container-fluid data-container">
+                        <div class="row">
+                            <div class="col-xs-5 col-md-6"><i class="fa fa-desktop large color-1"></i></div>
+                            <div class="col-xs-7 col-md-6">
+                                <div class="title">Devices Connected</div>
+                                <div class="data">{{currentTotals.devices}}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-xs-5 col-md-6"><i class="fa fa-user large color-2"></i></div>
+                            <div class="col-xs-7 col-md-6">
+                                <div class="title">Users Connected </div>
+                                <div class="data">{{currentTotals.users}}</div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-5 col-md-6"><i class="fa fa-briefcase large color-3"></i></div>
+                            <div class="col-xs-7 col-md-6">
+                                <div class="title">Current Jobs </div>
+                                <div class="data">{{currentTotals.jobs}}</div>
+                            </div>
+                        </div>  
+
+                    </div>
+                    
+                </div>
+
+
+                <div class="col-sm-6">
+
+                    <highchart class="chart-container" config="devicesConnectedConfig"></highchart>
+                    
+                </div>
+
+            </div>
+
+
+
+            <div class="row">
+
+                <div class="col-sm-6">
+
+                    <highchart class="chart-container" config="usersConnectedConfig"></highchart>
+                    
+                </div>
+
+
+                <div class="col-sm-6">
+
+                    <highchart class="chart-container" config="currentJobsConfig"></highchart>
+                    
+                </div>
+
+            </div>
+
+        </section>
 
 
 
