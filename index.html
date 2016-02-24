@@ -38,11 +38,12 @@
           		</button>
           		<a class="navbar-brand" href="#">FORMIDE <img class="nav-logo" src="images/element.png"></a>
         	</div>
-        	<!--<div id="navbar" class="navbar-collapse collapse">
+        	<div id="navbar" class="navbar-collapse collapse">
           		<ul class="nav navbar-nav">
-            		<li class="active"><a href="#">Dashboard</a></li>
+            		<li class="active"><a href="#totals">Totals</a></li>
+                    <li><a href="#live">Live Data</a></li>
           		</ul>
-        	</div>-->
+        	</div>
       	</div>
     </nav>
 
@@ -54,76 +55,71 @@
 
         <div class="row">
 
-            <div class="col-sm-4 container-fluid">
-                <div class="data-container">
-                    <div class="col-xs-5 col-sm-4 col-md-5"><i class="fa fa-users large"></i></div>
-                    <div class="col-xs-7 col-sm-8 col-md-7">
-                        <div class="title">No. Users</div>
-                        <div class="data">{{totals.users}} 
-                            <div class="change"><i class="fa fa-caret-up"> 2.1%</i></div>
+            <div class="col-sm-6">
+
+                <div class="container-fluid data-container">
+                    <div class="row">
+                        <div class="col-xs-5 col-md-6"><i class="fa fa-users large color-1"></i></div>
+                        <div class="col-xs-7 col-md-6">
+                            <div class="title">No. Users</div>
+                            <div class="data">{{totals.users}} 
+                                <div class="change"><i class="fa fa-caret-up"> 2.1%</i></div>
+                            </div>
                         </div>
                     </div>
+                    
+                    <div class="row">
+                        <div class="col-xs-5 col-md-6"><i class="fa fa-cubes large color-2"></i></div>
+                        <div class="col-xs-7 col-md-6">
+                            <div class="title">No. Models Sliced </div>
+                            <div class="data">{{totals.slicedModels}}
+                                <div class="change"><i class="fa fa-caret-up"> 3.9%</i></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-5 col-md-6"><i class="fa fa-clock-o large color-3"></i></div>
+                        <div class="col-xs-7 col-md-6">
+                            <div class="title">No. Print Hours</div>
+                            <div class="data">{{totals.printHours}}
+                                <div class="change"><i class="fa fa-caret-up"> 8.5%</i></div>
+                            </div>
+                        </div>
+                    </div>  
+
                 </div>
+                
             </div>
 
-            <div class="col-sm-4 container-fluid">
-                <div class="data-container">
-                    <div class="col-xs-5 col-sm-4 col-md-5"><i class="fa fa-cubes large"></i></div>
-                    <div class="col-xs-7 col-sm-8 col-md-7">
-                        <div class="title">No. Models Sliced </div>
-                        <div class="data">{{totals.slicedModels}}
-                            <div class="change"><i class="fa fa-caret-up"> 3.9%</i></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <div class="col-sm-4 container-fluid">
-                <div class="data-container">
-                    <div class="col-xs-5 col-sm-4 col-md-5"><i class="fa fa-clock-o large"></i></div>
-                    <div class="col-xs-7 col-sm-8 col-md-7">
-                        <div class="title">No. Print Hours</div>
-                        <div class="data">{{totals.printHours}}
-                            <div class="change"><i class="fa fa-caret-up"> 8.5%</i></div>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-sm-6">
+
+                <highchart class="chart-container" config="totalUsersConfig"></highchart>
+                
             </div>
 
         </div>
+
 
 
         <div class="row">
 
-            <div class="col-sm-6 container-fluid">
+            <div class="col-sm-6">
 
-                <div class="chart-container"></div>
+                <highchart class="chart-container" config="totalSlicedModelsConfig"></highchart>
                 
             </div>
 
-            <div class="col-sm-6 container-fluid">
 
-                <div class="chart-container"></div>
-                
-            </div>
+            <div class="col-sm-6">
 
-        </div>
-
-        <div class="row">
-
-            <div class="col-sm-6 container-fluid">
-
-                <div class="chart-container"></div>
-                
-            </div>
-
-            <div class="col-sm-6 container-fluid">
-
-                <div class="chart-container"></div>
+                <highchart class="chart-container" config="totalPrintHoursConfig"></highchart>
                 
             </div>
 
         </div>
+
 
 
 
@@ -139,7 +135,8 @@
 	
 	<!-- angularjs -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.9/angular-route.min.js"></script>
+    <script src="http://code.highcharts.com/highcharts.src.js"></script>
+    <script src="http://pablojim.github.io/highcharts-ng/javascripts/highcharts-ng.js"></script>
     
 	<script src="js/app.js"></script>
 	<script src="js/controllers.js"></script>

@@ -1,4 +1,4 @@
-var printrApp = angular.module( 'printrApp', [] );
+var printrApp = angular.module( 'printrApp', ['highcharts-ng'] );
 
  
 
@@ -17,3 +17,4 @@ printrApp.directive('resize', function ($window) {
     
     }
 });
+

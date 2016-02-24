@@ -30,4 +30,24 @@ body{
     	}
     }
 
+    .navbar-nav>.active>a, .navbar-nav>.active>a:focus, .navbar-nav>.active>a:hover {
+	    background-color: $background_color;
+	}
+
+}
+
+svg{
+	font-family: 'Lato', helvetica, arial, sans-serif !important;
+}
+
+.color-1{
+	color: $color_1;
+}
+
+.color-2{
+	color: $color_2;
+}
+
+.color-3{
+	color: $color_3;
 }
