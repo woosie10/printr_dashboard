@@ -1,7 +1,7 @@
 
 printrApp.controller('totalsCtrl', function($scope, weeklyTotals, percentageDiff) {
 
-	
+	//initialise arrays
 	$scope.weeklyTotals = [];
 	$scope.xAxis = [];
 	$scope.usersTotals = [];
@@ -10,11 +10,12 @@ printrApp.controller('totalsCtrl', function($scope, weeklyTotals, percentageDiff
 	$scope.totals = [];
 	$scope.previousTotals = [];
 
-
+	//get weekly totals data
 	weeklyTotals.getData().then(function(data){
 
 	  	$scope.weeklyTotals = data.data;
 
+	  	//populate chart data
 	  	angular.forEach($scope.weeklyTotals, function(item){  
 			$scope.xAxis.push(item.label);
 			$scope.usersTotals.push(item.users);
@@ -22,9 +23,13 @@ printrApp.controller('totalsCtrl', function($scope, weeklyTotals, percentageDiff
 			$scope.printHoursTotals.push(item.printHours);
        	})
 
+	  	//get latest week's data
        	$scope.totals = $scope.weeklyTotals[$scope.weeklyTotals.length - 1];
+
+       	//get previous week's data
        	$scope.previousTotals = $scope.weeklyTotals[$scope.weeklyTotals.length - 2];
 
+       	//calculate totals vs previous week
        	$scope.totals.usersDiff = percentageDiff.calc($scope.totals.users, $scope.previousTotals.users);
        	$scope.totals.modelsSlicedDiff = percentageDiff.calc($scope.totals.modelsSliced, $scope.previousTotals.modelsSliced);
        	$scope.totals.printHoursDiff = percentageDiff.calc($scope.totals.printHours, $scope.previousTotals.printHours);
@@ -34,10 +39,12 @@ printrApp.controller('totalsCtrl', function($scope, weeklyTotals, percentageDiff
 	});
 
 
-
+	//define line chart options
 	$scope.lineChartOptions = {
 	    chart: {
-	      	type: 'spline'
+	      	type: 'spline',
+	      	backgroundColor: '#FDFDFD',
+	      	lineWidth: 2
 	    },
 	    plotOptions: {
 		    series: {
@@ -49,6 +56,9 @@ printrApp.controller('totalsCtrl', function($scope, weeklyTotals, percentageDiff
 	    xAxis: {
             categories: $scope.xAxis
         },
+        yAxis:{
+        	allowDecimals: false
+        },
         title: {
 			text: ''
 		},
@@ -58,6 +68,7 @@ printrApp.controller('totalsCtrl', function($scope, weeklyTotals, percentageDiff
 	};
 
 
+	//define total users chart
 	$scope.totalUsersConfig = {
 
 		options: $scope.lineChartOptions,
@@ -66,10 +77,6 @@ printrApp.controller('totalsCtrl', function($scope, weeklyTotals, percentageDiff
 		    {
 		      	name: 'Users Total',
 		      	data: $scope.usersTotals,
-				id: 'series-0',
-				connectNulls: true,
-				type: 'spline',
-				lineWidth: 2,
 				color: '#1EB1E6'
 		    }
 		]
@@ -77,7 +84,7 @@ printrApp.controller('totalsCtrl', function($scope, weeklyTotals, percentageDiff
 
     };
 
-
+    //define total sliced models chart
     $scope.totalSlicedModelsConfig = {
 
 		options: $scope.lineChartOptions,
@@ -86,17 +93,13 @@ printrApp.controller('totalsCtrl', function($scope, weeklyTotals, percentageDiff
 		    {
 		      	name: 'Models Sliced Total',
 		      	data: $scope.modelsSlicedTotals,
-				connectNulls: true,
-				id: 'series-1',
-				type: 'spline',
-				lineWidth: 2,
 				color: '#888998'
 		    }
 		]		
 
     };
 
-
+    //define total print hours chart
     $scope.totalPrintHoursConfig = {
 
 		options: $scope.lineChartOptions,
@@ -105,9 +108,6 @@ printrApp.controller('totalsCtrl', function($scope, weeklyTotals, percentageDiff
 		    {
 		      	name: 'Print Hours Total',
 		      	data: $scope.printHoursTotals,
-				type: 'spline',
-				id: 'series-2',
-				lineWidth: 2,
 				color: '#3E4259'
 		    }
 		]
@@ -126,18 +126,40 @@ printrApp.controller('totalsCtrl', function($scope, weeklyTotals, percentageDiff
 
 
 
-printrApp.controller('livedataCtrl', function($scope, $filter) {
+printrApp.controller('livedataCtrl', function($scope, $filter, $interval, liveTotals) {
 
-
-	$scope.devices = [50];
-	$scope.users = [75];
-	$scope.jobs = [25];
-	$scope.xAxis = [$filter('date')(new Date(), 'HH:mm:ss')];
+	//initialise arrays
 	$scope.currentTotals = [];
+	$scope.xAxis = [];
 
+	//populate first data values
+    $scope.currentTotals.devices = [50];
+	$scope.currentTotals.users = [75];
+	$scope.currentTotals.jobs = [25];
+
+
+	(function () {
+
+        //generate previous 60 seconds of random live data
+        var time = (new Date()).getTime(), i;
+
+        for (i = -30; i <= 0; i += 1) {
+            $scope.xAxis.push($filter('date')(time + i * 2000, 'HH:mm:ss'));
+
+            liveTotals.addData($scope.currentTotals.devices);
+            liveTotals.addData($scope.currentTotals.users);
+            liveTotals.addData($scope.currentTotals.jobs);
+        }
+        return $scope.xAxis, $scope.currentTotals.devices, $scope.currentTotals.users, $scope.currentTotals.jobs;
+    }())
+
+
+	//define line chart options
 	$scope.lineChartOptions = {
 	    chart: {
-	      	type: 'spline'
+	      	type: 'spline',
+	      	lineWidth: 2,
+	      	backgroundColor: '#FDFDFD'
 	    },
 	    plotOptions: {
 		    series: {
@@ -150,15 +172,20 @@ printrApp.controller('livedataCtrl', function($scope, $filter) {
 	    xAxis: {
             categories: $scope.xAxis
         },
+        yAxis:{
+        	allowDecimals: false
+        },
         title: {
 			text: ''
 		},
 		credits: {
 			enabled: false
 		}
+
 	};
 
 
+	//define devices connected chart
 	$scope.devicesConnectedConfig = {
 
 		options: $scope.lineChartOptions,
@@ -166,18 +193,14 @@ printrApp.controller('livedataCtrl', function($scope, $filter) {
 		series: [
 		    {
 		      	name: 'Devices Connected',
-		      	data: $scope.devices,
-				id: 'series-0',
-				connectNulls: true,
-				type: 'spline',
-				lineWidth: 2,
+		      	data: $scope.currentTotals.devices,
 				color: '#1EB1E6'
 		    }
 		]	
 
     };
 
-
+    //define users connected chart
     $scope.usersConnectedConfig = {
 
 		options: $scope.lineChartOptions,
@@ -185,18 +208,14 @@ printrApp.controller('livedataCtrl', function($scope, $filter) {
 		series: [
 		    {
 		      	name: 'Users Connected',
-		      	data: $scope.users,
-				connectNulls: true,
-				id: 'series-1',
-				type: 'spline',
-				lineWidth: 2,
+		      	data: $scope.currentTotals.users,
 				color: '#888998'
 		    }
 		]		
 
     };
 
-
+    //define current jobs chart
     $scope.currentJobsConfig = {
 
 		options: $scope.lineChartOptions,
@@ -204,11 +223,7 @@ printrApp.controller('livedataCtrl', function($scope, $filter) {
 		series: [
 		    {
 		      	name: 'Current Jobs',
-		      	data: $scope.jobs,
-				connectNulls: true,
-				id: 'series-1',
-				type: 'spline',
-				lineWidth: 2,
+		      	data: $scope.currentTotals.jobs,
 				color: '#3E4259'
 		    }
 		]		
@@ -216,66 +231,26 @@ printrApp.controller('livedataCtrl', function($scope, $filter) {
     };
 
 
+    //generate new random live data
+    $interval(function () {
 
-    $scope.currentTotals.devices = $scope.devices[0];
-    $scope.currentTotals.users = $scope.users[0];
-    $scope.currentTotals.jobs = $scope.jobs[0];
+    	liveTotals.addData($scope.currentTotals.devices);
+
+    	liveTotals.addData($scope.currentTotals.users);
+
+    	liveTotals.addData($scope.currentTotals.jobs);
 
 
-    function updateChart(chart, total){
+    	$scope.newTime = $filter('date')(new Date(), 'HH:mm:ss');
+    	$scope.xAxis.push($scope.newTime);
 
-    	var newTime = $filter('date')(new Date(), 'HH:mm:ss');
-
-        $scope.dataSeries = chart.series[0].data;
-        $scope.dataSeries.push(total);
-        
-        if($scope.dataSeries.length>30){
-        	$scope.dataSeries.splice(0,1);
+    	if($scope.xAxis.length>30){
+        	$scope.xAxis.splice(0,1);
     	}
 
-        
-        $scope.dataAxis = chart.options.xAxis.categories;
-        $scope.dataAxis.push(newTime);
-
-        if($scope.dataAxis.length>30){
-        	$scope.dataAxis.splice(0,1);
-    	}
-
-	};
+    }, 1000);
 
 
-
-    setInterval(function () {
-
-    	$scope.currentTotals.devices += Math.round(Math.random() * 2 - 1);
-
-        if($scope.currentTotals.devices<0){
-        	$scope.currentTotals.devices = 1;
-        }
-
-    	updateChart($scope.devicesConnectedConfig, $scope.currentTotals.devices);
-
-
-    	$scope.currentTotals.users += Math.round(Math.random() * 2 - 1);
-
-        if($scope.currentTotals.users<0){
-        	$scope.currentTotals.users = 1;
-        }
-
-    	updateChart($scope.usersConnectedConfig, $scope.currentTotals.users);
-
-
-    	$scope.currentTotals.jobs += Math.round(Math.random() * 2 - 1);
-
-        if($scope.currentTotals.jobs<0){
-        	$scope.currentTotals.jobs = 1;
-        }
-
-    	updateChart($scope.currentJobsConfig, $scope.currentTotals.jobs);
-
-        $scope.$apply();
-
-    }, 2000);
 
 
 

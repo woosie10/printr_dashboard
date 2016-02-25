@@ -39,7 +39,34 @@ printrApp.factory('percentageDiff', function($http) {
 
 	var factory = {};
 	factory.calc = function(num1, num2) {
-	    return (num1 - num2) / num2 * 100;;
+	    return (num1 - num2) / num2 * 100;
+	};
+
+	return factory;
+  
+});
+
+
+// add data to live totals array
+printrApp.factory('liveTotals', function($http) {
+
+	var factory = {};
+	factory.addData = function(dataSeries) {
+
+		var lastPoint = dataSeries[dataSeries.length-1];
+    	var newPoint = lastPoint + Math.round(Math.random() * 2 - 1);
+
+    	if(newPoint<0){
+    		newPoint = 1;
+    	}
+
+    	dataSeries.push(newPoint);
+
+    	if(dataSeries.length>30){
+        	dataSeries.splice(0,1);
+    	}
+
+	    return dataSeries;
 	};
 
 	return factory;
