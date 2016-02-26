@@ -50,7 +50,12 @@ printrApp.controller('totalsCtrl', function($scope, weeklyTotalsData, percentage
 		    series: {
 		        marker: {
 		            enabled: false
-		        }
+		        },
+		        events: {
+                    legendItemClick: function () {
+                        return false;
+                    }
+                }
 		    }
 		},
 	    xAxis: {
@@ -193,7 +198,12 @@ printrApp.controller('livedataCtrl', function($scope, $filter, $interval, liveTo
 		        animation: false,
 		        marker: {
 		            enabled: false
-		        }
+		        },
+		        events: {
+                    legendItemClick: function () {
+                        return false;
+                    }
+                }
 		    }
 		},
 	    xAxis: {
