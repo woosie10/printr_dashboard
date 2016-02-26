@@ -26,19 +26,19 @@ module.exports = function(grunt) {
   	},
 
   	sass: {
-		dist: {
-			files: {
-				'css/main.css' : 'css/scss/main.scss'
-			}
-		}
-	},
+  		dist: {
+  			files: {
+  				'css/main.css' : 'css/scss/main.scss'
+  			}
+  		}
+  	},
 
-	watch: {
-		css: {
-			files: '**/*.scss',
-			tasks: ['sass']
-		}
-	}
+  	watch: {
+  		css: {
+  			files: '**/*.scss',
+  			tasks: ['sass']
+  		}
+  	}
 
   });
 

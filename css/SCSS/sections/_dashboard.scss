@@ -3,43 +3,53 @@
 
     max-width: $screen-lg-min;
     padding-top: 81px;
-    padding-bottom: 150px;
+    padding-bottom: 120px;
 
 
-    .dashboard-container{
+    %dashboard-container{
 		margin-bottom: 30px;
 	    background: $container-color;
 	    display: inline-block;
 	    width: 100%;
 	    border: 1px solid $border-color;
 	    border-radius: 3px;
-	    height: 300px;
+	    min-height: 330px;
 	}
 
 	
 	.data-container{
-		@extend .dashboard-container;
+		@extend %dashboard-container;
 		padding-top: 30px;
 	    padding-bottom: 30px;
 
 		.row{
-			margin-top: 15px;
-			margin-bottom: 15px;
-			display: inline-block;
-			width: 100%;
+			margin-top: 30px;
 		}
 
+		.header{
+			font-size: 150%;
+			text-align: center;
+		}
 
 		.data{
 			float: left;
-			margin-top: 10px;
+			margin: 10px 15px 0 0;
 			font-size: 150%;
+			color: #333;
+		}
 
-			.change{
-				display: inline-block;
-			    margin-left: 10px;
-			    font-size: 80%;
-			}
+		.change{
+			float: left;
+			margin-top: 15px;
+		}
+
+		.verses{
+			margin-left: 5px;
+		}
+
+		.limits{
+			float: left;
+			margin-top: 15px;
 		}
 
 		.fa.large{
@@ -51,12 +61,14 @@
 
 
 	.chart-container{
-		@extend .dashboard-container;
-		padding-top: 30px;
-	    padding-bottom: 10px;
+		@extend %dashboard-container;
+		padding-top: 20px;
+
+	    .toggle-btn{
+	    	float: right;
+	    	margin: 0 10px 10px 0;
+	    }
     	
 	}
-	
-
 
 }

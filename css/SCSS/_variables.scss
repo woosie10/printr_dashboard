@@ -10,14 +10,14 @@ $border-color: #E7E7E7;
 
 $font_color: #555;
 
-$color_1: #1EB1E6;
-$color_1_light: lighten($color_1, 10%);
+$color_1: #4CC1EB;
+$color_1_light: lighten($color_1, 30%);
 $color_1_dark: darken($color_1, 10%);
 
-$color_2: #888998;
-$color_2_light: lighten($color_1, 10%);
-$color_2_dark: darken($color_1, 10%);
+$color_2: #6E6F7F;
+$color_2_light: lighten($color_2, 40%);
+$color_2_dark: darken($color_2, 10%);
 
-$color_3: #3E4259;
-$color_3_light: lighten($color_1, 10%);
-$color_3_dark: darken($color_1, 10%);
+$color_3: #535877;
+$color_3_light: lighten($color_3, 45%);
+$color_3_dark: darken($color_3, 10%);

@@ -1,5 +1,5 @@
 
-printrApp.controller('totalsCtrl', function($scope, weeklyTotals, percentageDiff) {
+printrApp.controller('totalsCtrl', function($scope, weeklyTotalsData, percentageDiff) {
 
 	//initialise arrays
 	$scope.weeklyTotals = [];
@@ -11,7 +11,7 @@ printrApp.controller('totalsCtrl', function($scope, weeklyTotals, percentageDiff
 	$scope.previousTotals = [];
 
 	//get weekly totals data
-	weeklyTotals.getData().then(function(data){
+	weeklyTotalsData.get().then(function(data){
 
 	  	$scope.weeklyTotals = data.data;
 
@@ -62,6 +62,13 @@ printrApp.controller('totalsCtrl', function($scope, weeklyTotals, percentageDiff
         title: {
 			text: ''
 		},
+		legend: {
+            itemStyle: {
+                color: '#333',
+                fontWeight: 'normal',
+                fontSize: '15px',
+            }
+        },
 		credits: {
 			enabled: false
 		}
@@ -80,7 +87,6 @@ printrApp.controller('totalsCtrl', function($scope, weeklyTotals, percentageDiff
 				color: '#1EB1E6'
 		    }
 		]
-		
 
     };
 
@@ -108,13 +114,11 @@ printrApp.controller('totalsCtrl', function($scope, weeklyTotals, percentageDiff
 		    {
 		      	name: 'Print Hours Total',
 		      	data: $scope.printHoursTotals,
-				color: '#3E4259'
+				color: '#535877'
 		    }
 		]
 		
-
     };
-
 
 
 
@@ -126,32 +130,49 @@ printrApp.controller('totalsCtrl', function($scope, weeklyTotals, percentageDiff
 
 
 
-printrApp.controller('livedataCtrl', function($scope, $filter, $interval, liveTotals) {
+printrApp.controller('livedataCtrl', function($scope, $filter, $interval, liveTotalsData) {
 
 	//initialise arrays
 	$scope.currentTotals = [];
+	$scope.currentTotals.devices = [];
+	$scope.currentTotals.users = [];
+	$scope.currentTotals.jobs = [];
+
 	$scope.xAxis = [];
+	$scope.xAxis.seconds = [];
+	$scope.xAxis.minutes = [];
 
 	//populate first data values
-    $scope.currentTotals.devices = [50];
-	$scope.currentTotals.users = [75];
-	$scope.currentTotals.jobs = [25];
+    $scope.currentTotals.devices.seconds = [50];
+	$scope.currentTotals.users.seconds = [75];
+	$scope.currentTotals.jobs.seconds = [35];
 
+	$scope.currentTotals.devices.minutes = [50];
+	$scope.currentTotals.users.minutes = [75];
+	$scope.currentTotals.jobs.minutes = [35];
+
+	
 
 	(function () {
-
-        //generate previous 60 seconds of random live data
         var time = (new Date()).getTime(), i;
 
-        for (i = -30; i <= 0; i += 1) {
-            $scope.xAxis.push($filter('date')(time + i * 2000, 'HH:mm:ss'));
+        for (i = -60; i <= 0; i += 1) {
 
-            liveTotals.addData($scope.currentTotals.devices);
-            liveTotals.addData($scope.currentTotals.users);
-            liveTotals.addData($scope.currentTotals.jobs);
+        	//generate previous 60 seconds of random live data
+            $scope.xAxis.seconds.push($filter('date')(time + i * 1000, 'HH:mm:ss'));
+            liveTotalsData.add($scope.currentTotals.devices.seconds);
+            liveTotalsData.add($scope.currentTotals.users.seconds);
+            liveTotalsData.add($scope.currentTotals.jobs.seconds);
+
+            //generate previous 60 minutes of random live data
+            $scope.xAxis.minutes.push($filter('date')(time + i * 60000, 'HH:mm:ss'));
+            liveTotalsData.add($scope.currentTotals.devices.minutes);
+            liveTotalsData.add($scope.currentTotals.users.minutes);
+            liveTotalsData.add($scope.currentTotals.jobs.minutes);
         }
-        return $scope.xAxis, $scope.currentTotals.devices, $scope.currentTotals.users, $scope.currentTotals.jobs;
+    	
     }())
+
 
 
 	//define line chart options
@@ -159,7 +180,8 @@ printrApp.controller('livedataCtrl', function($scope, $filter, $interval, liveTo
 	    chart: {
 	      	type: 'spline',
 	      	lineWidth: 2,
-	      	backgroundColor: '#FDFDFD'
+	      	backgroundColor: '#FDFDFD',
+	      	height: 260
 	    },
 	    plotOptions: {
 		    series: {
@@ -170,7 +192,8 @@ printrApp.controller('livedataCtrl', function($scope, $filter, $interval, liveTo
 		    }
 		},
 	    xAxis: {
-            categories: $scope.xAxis
+            categories: $scope.xAxis.seconds,
+            minTickInterval: 10,
         },
         yAxis:{
         	allowDecimals: false
@@ -178,6 +201,13 @@ printrApp.controller('livedataCtrl', function($scope, $filter, $interval, liveTo
         title: {
 			text: ''
 		},
+		legend: {
+            itemStyle: {
+                color: '#333',
+                fontWeight: 'normal',
+                fontSize: '15px',
+            }
+        },
 		credits: {
 			enabled: false
 		}
@@ -193,8 +223,8 @@ printrApp.controller('livedataCtrl', function($scope, $filter, $interval, liveTo
 		series: [
 		    {
 		      	name: 'Devices Connected',
-		      	data: $scope.currentTotals.devices,
-				color: '#1EB1E6'
+				color: '#1EB1E6',
+		      	data: $scope.currentTotals.devices.seconds
 		    }
 		]	
 
@@ -208,8 +238,8 @@ printrApp.controller('livedataCtrl', function($scope, $filter, $interval, liveTo
 		series: [
 		    {
 		      	name: 'Users Connected',
-		      	data: $scope.currentTotals.users,
-				color: '#888998'
+				color: '#888998',
+		      	data: $scope.currentTotals.users.seconds
 		    }
 		]		
 
@@ -223,33 +253,113 @@ printrApp.controller('livedataCtrl', function($scope, $filter, $interval, liveTo
 		series: [
 		    {
 		      	name: 'Current Jobs',
-		      	data: $scope.currentTotals.jobs,
-				color: '#3E4259'
+				color: '#535877',
+		      	data: $scope.currentTotals.jobs.seconds
 		    }
 		]		
 
     };
 
 
-    //generate new random live data
+    //generate new random data values every second
     $interval(function () {
 
-    	liveTotals.addData($scope.currentTotals.devices);
-
-    	liveTotals.addData($scope.currentTotals.users);
-
-    	liveTotals.addData($scope.currentTotals.jobs);
+    	liveTotalsData.add($scope.currentTotals.devices.seconds);
+    	liveTotalsData.add($scope.currentTotals.users.seconds);
+    	liveTotalsData.add($scope.currentTotals.jobs.seconds);
 
 
     	$scope.newTime = $filter('date')(new Date(), 'HH:mm:ss');
-    	$scope.xAxis.push($scope.newTime);
+    	$scope.xAxis.seconds.push($scope.newTime);
 
-    	if($scope.xAxis.length>30){
-        	$scope.xAxis.splice(0,1);
+    	if($scope.xAxis.seconds.length>30){
+        	$scope.xAxis.seconds.splice(0,1);
     	}
 
     }, 1000);
 
+
+    //generate new random data values every minute
+    $interval(function () {
+
+    	liveTotalsData.add($scope.currentTotals.devices.minutes);
+    	liveTotalsData.add($scope.currentTotals.users.minutes);
+    	liveTotalsData.add($scope.currentTotals.jobs.minutes);
+
+    	$scope.newTime = $filter('date')(new Date(), 'HH:mm:ss');
+    	$scope.xAxis.minutes.push($scope.newTime);
+
+    	if($scope.xAxis.minutes.length>30){
+        	$scope.xAxis.minutes.splice(0,1);
+    	}
+
+    }, 60000);
+
+
+
+    //set chart type to second
+    $scope.chartFlag = 1;
+
+    //toggle between second and minute charts
+    $scope.toggleChart = function(){
+
+
+    	$scope.devicesConnectedConfig.series.splice(0, 1);
+    	$scope.usersConnectedConfig.series.splice(0, 1);
+    	$scope.currentJobsConfig.series.splice(0, 1);
+
+    	if($scope.chartFlag == 1){
+
+			$scope.chartFlag = 2;
+
+    		$scope.devicesConnectedConfig.options.xAxis.categories = $scope.xAxis.minutes;
+
+			$scope.devicesConnectedConfig.series.push({
+				name: 'Devices Connected',
+				color: '#1EB1E6',
+				data: $scope.currentTotals.devices.minutes
+			});
+
+			$scope.usersConnectedConfig.series.push({
+				name: 'Users Connected',
+				color: '#888998',
+		      	data: $scope.currentTotals.users.minutes
+			});
+
+			$scope.currentJobsConfig.series.push({
+				name: 'Current Jobs',
+				color: '#535877',
+		      	data: $scope.currentTotals.jobs.minutes
+			});
+
+
+		}else{
+
+			$scope.chartFlag = 1;
+			
+			$scope.devicesConnectedConfig.options.xAxis.categories = $scope.xAxis.seconds;
+
+			$scope.devicesConnectedConfig.series.push({
+				name: 'Devices Connected',
+				color: '#1EB1E6',
+				data: $scope.currentTotals.devices.seconds
+			});
+
+			$scope.usersConnectedConfig.series.push({
+				name: 'Users Connected',
+				color: '#888998',
+		      	data: $scope.currentTotals.users.seconds
+			});
+
+			$scope.currentJobsConfig.series.push({
+				name: 'Current Jobs',
+				color: '#535877',
+		      	data: $scope.currentTotals.jobs.seconds
+			});
+
+		}
+
+    }
 
 
 

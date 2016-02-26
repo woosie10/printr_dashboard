@@ -1,6 +1,6 @@
+
 var printrApp = angular.module( 'printrApp', ['highcharts-ng'] );
 
- 
 
 
 //set height to full page
@@ -21,10 +21,10 @@ printrApp.directive('resize', function ($window) {
 
 
 // import weekly totals data
-printrApp.factory('weeklyTotals', function($http) {
+printrApp.factory('weeklyTotalsData', function($http) {
 
 	var factory = {};
-	factory.getData = function() {
+	factory.get = function() {
 	    return $http.get('json/weeklyTotalsData.json');
 	};
 
@@ -47,11 +47,12 @@ printrApp.factory('percentageDiff', function($http) {
 });
 
 
+
 // add data to live totals array
-printrApp.factory('liveTotals', function($http) {
+printrApp.factory('liveTotalsData', function($http) {
 
 	var factory = {};
-	factory.addData = function(dataSeries) {
+	factory.add = function(dataSeries) {
 
 		var lastPoint = dataSeries[dataSeries.length-1];
     	var newPoint = lastPoint + Math.round(Math.random() * 2 - 1);
@@ -62,8 +63,17 @@ printrApp.factory('liveTotals', function($http) {
 
     	dataSeries.push(newPoint);
 
-    	if(dataSeries.length>30){
+    	if(dataSeries.length>60){
         	dataSeries.splice(0,1);
+    	}
+
+
+    	if(dataSeries.max < Math.max.apply(null, dataSeries) || !dataSeries.max){
+    		dataSeries.max = Math.max.apply(null, dataSeries)
+    	}
+
+    	if(dataSeries.min > Math.min.apply(null, dataSeries) || !dataSeries.min){
+    		dataSeries.min = Math.min.apply(null, dataSeries)
     	}
 
 	    return dataSeries;
