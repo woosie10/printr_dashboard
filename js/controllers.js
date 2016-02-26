@@ -165,7 +165,7 @@ printrApp.controller('livedataCtrl', function($scope, $filter, $interval, liveTo
             liveTotalsData.add($scope.currentTotals.jobs.seconds);
 
             //generate previous 60 minutes of random live data
-            $scope.xAxis.minutes.push($filter('date')(time + i * 60000, 'HH:mm:ss'));
+            $scope.xAxis.minutes.push($filter('date')(time + i * 60000, 'HH:mm'));
             liveTotalsData.add($scope.currentTotals.devices.minutes);
             liveTotalsData.add($scope.currentTotals.users.minutes);
             liveTotalsData.add($scope.currentTotals.jobs.minutes);
@@ -299,7 +299,7 @@ printrApp.controller('livedataCtrl', function($scope, $filter, $interval, liveTo
         liveTotalsData.findLimits($scope.currentTotals.users);
         liveTotalsData.findLimits($scope.currentTotals.jobs);
 
-    	$scope.newTime = $filter('date')(new Date(), 'HH:mm:ss');
+    	$scope.newTime = $filter('date')(new Date(), 'HH:mm');
     	$scope.xAxis.minutes.push($scope.newTime);
 
     	if($scope.xAxis.minutes.length>30){
