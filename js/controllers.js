@@ -170,6 +170,11 @@ printrApp.controller('livedataCtrl', function($scope, $filter, $interval, liveTo
             liveTotalsData.add($scope.currentTotals.users.minutes);
             liveTotalsData.add($scope.currentTotals.jobs.minutes);
         }
+
+        //find max and min of data
+        liveTotalsData.findLimits($scope.currentTotals.devices);
+        liveTotalsData.findLimits($scope.currentTotals.users);
+        liveTotalsData.findLimits($scope.currentTotals.jobs);
     	
     }())
 
@@ -268,6 +273,10 @@ printrApp.controller('livedataCtrl', function($scope, $filter, $interval, liveTo
     	liveTotalsData.add($scope.currentTotals.users.seconds);
     	liveTotalsData.add($scope.currentTotals.jobs.seconds);
 
+    	liveTotalsData.findLimits($scope.currentTotals.devices);
+        liveTotalsData.findLimits($scope.currentTotals.users);
+        liveTotalsData.findLimits($scope.currentTotals.jobs);
+
 
     	$scope.newTime = $filter('date')(new Date(), 'HH:mm:ss');
     	$scope.xAxis.seconds.push($scope.newTime);
@@ -286,6 +295,10 @@ printrApp.controller('livedataCtrl', function($scope, $filter, $interval, liveTo
     	liveTotalsData.add($scope.currentTotals.users.minutes);
     	liveTotalsData.add($scope.currentTotals.jobs.minutes);
 
+    	liveTotalsData.findLimits($scope.currentTotals.devices);
+        liveTotalsData.findLimits($scope.currentTotals.users);
+        liveTotalsData.findLimits($scope.currentTotals.jobs);
+
     	$scope.newTime = $filter('date')(new Date(), 'HH:mm:ss');
     	$scope.xAxis.minutes.push($scope.newTime);
 
@@ -297,10 +310,10 @@ printrApp.controller('livedataCtrl', function($scope, $filter, $interval, liveTo
 
 
 
-    //set chart type to second
+    //set chart type to seconds
     $scope.chartFlag = 1;
 
-    //toggle between second and minute charts
+    //toggle between seconds and minutes charts
     $scope.toggleChart = function(){
 
 
@@ -336,7 +349,7 @@ printrApp.controller('livedataCtrl', function($scope, $filter, $interval, liveTo
 		}else{
 
 			$scope.chartFlag = 1;
-			
+
 			$scope.devicesConnectedConfig.options.xAxis.categories = $scope.xAxis.seconds;
 
 			$scope.devicesConnectedConfig.series.push({

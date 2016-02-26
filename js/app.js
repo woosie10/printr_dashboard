@@ -67,18 +67,30 @@ printrApp.factory('liveTotalsData', function($http) {
         	dataSeries.splice(0,1);
     	}
 
-
-    	if(dataSeries.max < Math.max.apply(null, dataSeries) || !dataSeries.max){
-    		dataSeries.max = Math.max.apply(null, dataSeries)
-    	}
-
-    	if(dataSeries.min > Math.min.apply(null, dataSeries) || !dataSeries.min){
-    		dataSeries.min = Math.min.apply(null, dataSeries)
-    	}
-
 	    return dataSeries;
 	};
+
+  factory.findLimits = function(dataSeries) {
+
+    if(dataSeries.max < Math.max.apply(null, dataSeries.seconds) || !dataSeries.max){
+        dataSeries.max = Math.max.apply(null, dataSeries.seconds)
+    }
+
+    if(dataSeries.max < Math.max.apply(null, dataSeries.minutes)){
+        dataSeries.max = Math.max.apply(null, dataSeries.minutes)
+    }
+
+    if(dataSeries.min > Math.min.apply(null, dataSeries.seconds) || !dataSeries.min){
+      dataSeries.min = Math.min.apply(null, dataSeries.seconds)
+    }
+
+    if(dataSeries.min > Math.min.apply(null, dataSeries.minutes)){
+      dataSeries.min = Math.min.apply(null, dataSeries.minutes)
+    }
+
+  };
 
 	return factory;
   
 });
+
