@@ -1,4 +1,3 @@
-'use strict'
 
 module.exports = function(grunt) {
 
@@ -25,6 +24,10 @@ module.exports = function(grunt) {
   		}
   	},
 
+    jshint: {
+      files: ['Gruntfile.js', 'js/*.js'],
+    },
+
   	sass: {
   		dist: {
   			files: {
@@ -43,6 +46,7 @@ module.exports = function(grunt) {
   });
 
   grunt.loadNpmTasks('grunt-htmlhint');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-watch');
 

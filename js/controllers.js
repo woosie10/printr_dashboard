@@ -21,7 +21,7 @@ printrApp.controller('totalsCtrl', function($scope, weeklyTotalsData, percentage
 			$scope.usersTotals.push(item.users);
 			$scope.modelsSlicedTotals.push(item.modelsSliced);
 			$scope.printHoursTotals.push(item.printHours);
-       	})
+       	});
 
 	  	//get latest week's data
        	$scope.totals = $scope.weeklyTotals[$scope.weeklyTotals.length - 1];
@@ -142,7 +142,7 @@ printrApp.controller('livedataCtrl', function($scope, $filter, $interval, liveTo
 	$scope.xAxis.seconds = [];
 	$scope.xAxis.minutes = [];
 
-	//populate first data values
+	//populate first data values to set chart starting point
     $scope.currentTotals.devices.seconds = [50];
 	$scope.currentTotals.users.seconds = [75];
 	$scope.currentTotals.jobs.seconds = [35];
@@ -176,7 +176,7 @@ printrApp.controller('livedataCtrl', function($scope, $filter, $interval, liveTo
         liveTotalsData.findLimits($scope.currentTotals.users);
         liveTotalsData.findLimits($scope.currentTotals.jobs);
     	
-    }())
+    }());
 
 
 
@@ -316,17 +316,20 @@ printrApp.controller('livedataCtrl', function($scope, $filter, $interval, liveTo
     //toggle between seconds and minutes charts
     $scope.toggleChart = function(){
 
-
+    	//remove current chart series 
     	$scope.devicesConnectedConfig.series.splice(0, 1);
     	$scope.usersConnectedConfig.series.splice(0, 1);
     	$scope.currentJobsConfig.series.splice(0, 1);
 
     	if($scope.chartFlag == 1){
 
+    		//uodate flag
 			$scope.chartFlag = 2;
 
+			//update axis
     		$scope.devicesConnectedConfig.options.xAxis.categories = $scope.xAxis.minutes;
 
+    		//add minutes data to chart series
 			$scope.devicesConnectedConfig.series.push({
 				name: 'Devices Connected',
 				color: '#1EB1E6',
@@ -348,10 +351,13 @@ printrApp.controller('livedataCtrl', function($scope, $filter, $interval, liveTo
 
 		}else{
 
+			//uodate flag
 			$scope.chartFlag = 1;
 
+			//uodate axis
 			$scope.devicesConnectedConfig.options.xAxis.categories = $scope.xAxis.seconds;
 
+			//add seconds data to chart series
 			$scope.devicesConnectedConfig.series.push({
 				name: 'Devices Connected',
 				color: '#1EB1E6',
@@ -372,7 +378,7 @@ printrApp.controller('livedataCtrl', function($scope, $filter, $interval, liveTo
 
 		}
 
-    }
+    };
 
 
 
